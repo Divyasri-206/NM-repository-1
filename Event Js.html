@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>JS Events - Color Change</title>
+
+<style>
+body{
+    font-family: Arial;
+    background:#e8f5e9;
+}
+
+.box{
+    width:380px;
+    margin:40px auto;
+    padding:25px;
+    text-align:center;
+    border-radius:15px;
+    background:white;
+    box-shadow:0 0 8px #aaa;
+    transition:0.3s;
+}
+
+h3{
+    margin-bottom:20px;
+}
+
+input, select, button{
+    width:100%;
+    height:42px;
+    padding:8px;
+    margin-top:12px;
+    font-size:15px;
+    box-sizing:border-box;
+}
+
+button{
+    border:none;
+    color:white;
+    background:#2e7d32;
+    cursor:pointer;
+    border-radius:5px;
+}
+
+button:hover{
+    opacity:0.9;
+}
+</style>
+</head>
+
+<body>
+
+<div class="box" id="box">
+
+<h3>JS Events</h3>
+
+<form onsubmit="submitEvent(event)" onreset="resetEvent()">
+
+<!-- Keyboard + Focus Events -->
+<input type="text" placeholder="Type here"
+onfocus="changeColor('lightblue')"
+onblur="changeColor('white')"
+onkeydown="changeColor('lightgreen')"
+onkeyup="changeColor('lightsalmon')">
+
+<!-- Change Event -->
+<select onchange="changeColor('lightpink')">
+<option>Select Course</option>
+<option>CSE</option>
+<option>IT</option>
+<option>ECE</option>
+</select>
+
+<!-- Mouse Events -->
+<button type="button"
+onclick="changeColor('orange')"
+ondblclick="changeColor('red')"
+onmouseover="changeColor('yellow')"
+onmouseout="changeColor('white')"
+onmousedown="changeColor('purple')"
+onmouseup="changeColor('green')"
+oncontextmenu="return rightClick()">
+Mouse Events Button
+</button>
+
+<button type="submit">Submit</button>
+<button type="reset">Reset</button>
+
+</form>
+
+</div>
+
+<script>
+function changeColor(color){
+    document.getElementById("box").style.backgroundColor = color;
+}
+
+function submitEvent(e){
+    e.preventDefault();
+    alert("Form Submitted");
+    changeColor("lightcoral");
+}
+
+function resetEvent(){
+    changeColor("white");
+}
+
+function rightClick(){
+    alert("Right Click Disabled");
+    changeColor("gray");
+    return false;
+}
+</script>
+
+</body>
+</html>
