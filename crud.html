@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>CRUD Form</title>
+
+<style>
+body{
+    font-family: Arial;
+    background:#e8f5e9;
+}
+/* Main Box */
+.box{
+    width:420px;
+    margin:30px auto;
+    padding:25px;
+    border-radius:15px;
+    background:white;
+    box-shadow:0 0 10px #aaa;
+    transition:0.3s;
+}
+
+h3{
+    text-align:center;
+    margin-bottom:20px;
+}
+
+/* Inputs */
+input, select, button{
+    width:100%;
+    height:42px;
+    margin-top:10px;
+    padding:8px;
+    font-size:15px;
+    box-sizing:border-box;
+}
+
+/* Buttons */
+button{
+    border:none;
+    color:white;
+    background:#2e7d32;
+    cursor:pointer;
+    border-radius:5px;
+}
+
+button.edit{
+    background:#1565c0;
+}
+
+button.delete{
+    background:#c62828;
+}
+
+/* Output cards */
+.output-box{
+    background:#f1f8e9;
+    border-radius:8px;
+    padding:10px;
+    margin-top:10px;
+    font-size:14px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="box" id="box">
+
+<h3 id="heading">CRUD Form</h3>
+
+<form onsubmit="addData(event)">
+
+<!-- Name -->
+<input type="text" id="name" placeholder="Enter Name" required>
+
+<!-- Department (Choice) -->
+<select id="dept" required>
+<option value="">Select Department</option>
+<option>CSE</option>
+<option>IT</option>
+<option>ECE</option>
+<option>EEE</option>
+<option>MECH</option>
+</select>
+
+<!-- Year (2010 - 2026) -->
+<select id="year" required>
+<option value="">Select Year</option>
+<script>
+for(let y=2010; y<=2026; y++){
+    document.write("<option>"+y+"</option>");
+}
+</script>
+</select>
+
+<!-- College -->
+<input type="text" id="college" placeholder="Enter College Name" required>
+
+<button type="submit">Add Data</button>
+
+</form>
+
+<!-- OUTPUT -->
+<div id="list"></div>
+
+</div>
+
+<script>
+let editIndex = -1;
+
+function addData(e){
+    e.preventDefault();
+
+    let name = document.getElementById("name").value;
+    let dept = document.getElementById("dept").value;
+    let year = document.getElementById("year").value;
+    let college = document.getElementById("college").value;
+
+    let list = document.getElementById("list");
+
+    if(editIndex === -1){
+        let div = document.createElement("div");
+        div.className = "output-box";
+        div.innerHTML = `
+        <b>${name}</b><br>
+        Dept: ${dept}<br>
+        Year: ${year}<br>
+        College: ${college}<br><br>
+        <button class="edit" onclick="editData(this)">Edit</button>
+        <button class="delete" onclick="deleteData(this)">Delete</button>
+        `;
+        list.appendChild(div);
+    }else{
+        let box = list.children[editIndex];
+        box.innerHTML = `
+        <b>${name}</b><br>
+        Dept: ${dept}<br>
+        Year: ${year}<br>
+        College: ${college}<br><br>
+        <button class="edit" onclick="editData(this)">Edit</button>
+        <button class="delete" onclick="deleteData(this)">Delete</button>
+        `;
+        editIndex = -1;
+        document.getElementById("heading").innerText = "JS CRUD Events Demo";
+    }
+
+    document.querySelector("form").reset();
+}
+
+// Edit
+function editData(btn){
+    let box = btn.parentElement;
+    let lines = box.innerText.split("\n");
+
+    document.getElementById("name").value = lines[0];
+    document.getElementById("dept").value = lines[1].split(": ")[1];
+    document.getElementById("year").value = lines[2].split(": ")[1];
+    document.getElementById("college").value = lines[3].split(": ")[1];
+
+    editIndex = Array.from(box.parentNode.children).indexOf(box);
+    document.getElementById("heading").innerText = "Edit Data";
+}
+
+// Delete with confirmation
+function deleteData(btn){
+    if(confirm("Are you sure you want to delete this data?")){
+        btn.parentElement.remove();
+    }
+}
+</script>
+
+</body>
+</html>
